@@ -3,12 +3,15 @@ const express = require("express");
 const errorHandler = require("./middlewares/errorHandlerMiddleware");
 const { connectDB } = require("./config/db");
 const { userRoute } = require("./routes/user.route");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 // connection to db
 connectDB();
 
 app.use(express.json());
+app.use(cookieParser());
+
 app.use("/user", userRoute);
 app.use(errorHandler);
 

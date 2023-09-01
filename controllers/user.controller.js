@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel } = require("../models/user.model");
 
-async function userRegistration(req, res) {
+async function userRegistration(req, res, next) {
   try {
     const { username, email, password } = req.body;
 
@@ -21,7 +21,7 @@ async function userRegistration(req, res) {
         msg: "User register successfully",
       });
     } else {
-      return new Error("Email-Id already exists");
+      throw new Error("Email-Id already exists");
     }
   } catch (error) {
     next(error);
@@ -29,7 +29,7 @@ async function userRegistration(req, res) {
   }
 }
 
-async function userLogin(req, res) {
+async function userLogin(req, res, next) {
   try {
     const { email, password } = req.body;
     const user = await UserModel.find({ email });
@@ -41,22 +41,37 @@ async function userLogin(req, res) {
             process.env.SECRET_KEY,
             { expiresIn: "7d" }
           );
+
+          //set token in cookies with 30d expire
+          res.cookie("token", token, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true,
+          });
+
           res.status(200).json({
             status: true,
-            token,
             msg: "Login successful",
             username: user[0].username,
           });
         } else {
-          return new Error("Wrong Credentails");
+          throw new Error("Wrong Credentails");
         }
       });
     } else {
-      return new Error("Wrong Credentails");
+      throw new Error("Wrong Credentails");
     }
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = { userRegistration, userLogin };
+function logout(req, res, next) {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ msg: "successfully logout" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { userRegistration, userLogin, logout };
