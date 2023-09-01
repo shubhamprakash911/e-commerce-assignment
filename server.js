@@ -1,9 +1,15 @@
+require("dotenv").config();
 const express = require("express");
-const connectionDb = require("./config/db");
 const errorHandler = require("./middlewares/errorHandlerMiddleware");
+const { connectDB } = require("./config/db");
+const { userRoute } = require("./routes/user.route");
 const app = express();
 
+// connection to db
+connectDB();
+
 app.use(express.json());
+app.use("/user", userRoute);
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
@@ -16,12 +22,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, async () => {
-  try {
-    await connectionDb;
-    console.log("DB connected to server");
-    console.log("server is runnig at port ", PORT);
-  } catch (error) {
-    next(error);
-  }
+app.listen(PORT, () => {
+  console.log("server is listing at port ", PORT);
 });
