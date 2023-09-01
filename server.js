@@ -5,6 +5,7 @@ const { connectDB } = require("./config/db");
 const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user.route");
 const categoryRoute = require("./routes/category.route");
+const productRoute = require("./routes/product.route");
 const app = express();
 
 // connection to db
@@ -15,7 +16,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/user", userRoute);
+app.use("/product", productRoute);
 app.use("/category", categoryRoute);
+
 app.use(errorHandler);
 
 app.get("/", (req, res) => {

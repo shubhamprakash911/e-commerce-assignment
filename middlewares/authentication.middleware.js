@@ -1,13 +1,18 @@
 const jwt = require("jsonwebtoken");
+const { UserModel } = require("../models/user.model");
 require("dotenv").config();
 
-const authanticate = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     console.log(token);
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     if (decoded) {
       req.body.userId = decoded.userId;
+
+      const userDetail = UserModel.find({ _id: decoded.userId });
+      req.body.role = userDetail[0].role;
+
       next();
     } else {
       res.status(401).json({
@@ -20,4 +25,4 @@ const authanticate = async (req, res, next) => {
   }
 };
 
-module.exports = { authanticate };
+module.exports = { authenticate };
