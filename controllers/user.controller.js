@@ -4,7 +4,7 @@ const { UserModel } = require("../models/user.model");
 
 async function userRegistration(req, res, next) {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     const user = await UserModel.find({ email });
 
@@ -14,6 +14,7 @@ async function userRegistration(req, res, next) {
         username,
         email,
         password: hashPassword,
+        role,
       });
       await newUser.save();
       res.status(200).json({
@@ -37,7 +38,7 @@ async function userLogin(req, res, next) {
       bcrypt.compare(password, user[0].password, async (err, result) => {
         if (result) {
           const token = jwt.sign(
-            { userId: user[0]._id },
+            { userId: user[0]._id, role: user[0].role },
             process.env.SECRET_KEY,
             { expiresIn: "7d" }
           );

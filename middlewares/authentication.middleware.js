@@ -9,19 +9,14 @@ const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     if (decoded) {
       req.body.userId = decoded.userId;
-
-      const userDetail = UserModel.find({ _id: decoded.userId });
-      req.body.role = userDetail[0].role;
+      req.body.role = decoded.role;
 
       next();
     } else {
-      res.status(401).json({
-        status: false,
-        msg: "error in the token",
-      });
+      throw new Error("error in token");
     }
   } catch (error) {
-    res.status(500).json({ status: false, msg: "error while authentication" });
+    next(error);
   }
 };
 
