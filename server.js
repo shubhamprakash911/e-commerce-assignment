@@ -2,17 +2,20 @@ require("dotenv").config();
 const express = require("express");
 const errorHandler = require("./middlewares/errorHandlerMiddleware");
 const { connectDB } = require("./config/db");
-const { userRoute } = require("./routes/user.route");
 const cookieParser = require("cookie-parser");
+const userRoute = require("./routes/user.route");
+const categoryRoute = require("./routes/category.route");
 const app = express();
 
 // connection to db
 connectDB();
 
+//middlewares
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/user", userRoute);
+app.use("/category", categoryRoute);
 app.use(errorHandler);
 
 app.get("/", (req, res) => {

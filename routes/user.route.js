@@ -11,4 +11,4 @@ userRoute.post("/register", userRegistration);
 userRoute.post("/login", userLogin);
 userRoute.get("/logout", logout);
 
-module.exports = { userRoute };
+module.exports = userRoute;
