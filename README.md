@@ -134,23 +134,15 @@ Content-Type: application/json
 
 **HTTP Method:** `GET`
 
-**Request Headers:**
-
-| Header          | Description                    |
-| --------------- | ------------------------------ |
-| `Authorization` | Bearer token obtained on login |
-
 **Sample Request:**
 
 ```http
 GET /api/user/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 **Response:**
 
 - `200 OK` if logout is successful.
-- `401 Unauthorized` if the provided token is invalid or missing.
 
 **Sample Response (Success):**
 
