@@ -15,9 +15,9 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/user", userRoute);
-app.use("/product", productRoute);
-app.use("/category", categoryRoute);
+app.use("/api/user", userRoute);
+app.use("/api/product", productRoute);
+app.use("/api/category", categoryRoute);
 
 app.use(errorHandler);
 
