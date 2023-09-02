@@ -1,7 +1,5 @@
 # e-commerce-assignment
 
-Based on the provided schema and controller code, I will create API documentation in Markdown format for the user routes. Below is the documentation for user registration, login, and logout routes:
-
 ## User API Documentation
 
 ## User Registration
