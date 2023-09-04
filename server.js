@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/category", categoryRoute);
-app.use("/api/order", orderRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use(errorHandler);
 

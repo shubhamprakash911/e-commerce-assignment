@@ -496,7 +496,7 @@ Example Response Body:
 ### Endpoint
 
 ```
-GET /orders/history/:userId
+GET /orders/history
 ```
 
 ### Description
