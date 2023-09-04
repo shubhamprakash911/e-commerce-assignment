@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user.route");
 const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
+const orderRoutes = require("./routes/oder.route");
 const app = express();
 
 // connection to db
@@ -16,8 +17,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/user", userRoute);
-app.use("/api/product", productRoute);
+app.use("/api/products", productRoute);
 app.use("/api/category", categoryRoute);
+app.use("/api/order", orderRoutes);
 
 app.use(errorHandler);
 

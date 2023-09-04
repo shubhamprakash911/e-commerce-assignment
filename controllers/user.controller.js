@@ -9,7 +9,10 @@ async function userRegistration(req, res, next) {
     const user = await UserModel.find({ email });
 
     if (user.length === 0) {
-      const hashPassword = bcrypt.hashSync(password, +process.env.SALT_ROUND);
+      const saltRounds = +process.env.SALT_ROUND;
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hashPassword = bcrypt.hashSync(password, salt);
+      console.log(hashPassword);
       const newUser = new UserModel({
         username,
         email,
@@ -20,6 +23,7 @@ async function userRegistration(req, res, next) {
       res.status(200).json({
         status: true,
         msg: "User register successfully",
+        data: newUser,
       });
     } else {
       throw new Error("Email-Id already exists");
@@ -52,7 +56,7 @@ async function userLogin(req, res, next) {
           res.status(200).json({
             status: true,
             msg: "Login successful",
-            username: user[0].username,
+            data: user[0],
           });
         } else {
           throw new Error("Wrong Credentails");

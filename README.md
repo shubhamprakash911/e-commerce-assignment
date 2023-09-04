@@ -114,8 +114,7 @@ Content-Type: application/json
       "username": "john_doe",
       "email": "john.doe@example.com",
       "role": "user"
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
   }
 }
 ```
@@ -417,5 +416,197 @@ Retrieve a specific product by its ID.
   - When not authenticated.
 - **Status Code:** 404 Not Found
   - If the product with the specified ID does not exist.
+
+---
+
+# Order API Documentation
+
+## Table of Contents
+
+- [Place an Order](#place-an-order)
+- [Get Orders by User ID](#get-orders-by-user-id)
+- [Get Order Details by Order ID](#get-order-details-by-order-id)
+
+---
+
+## Place an Order
+
+### Endpoint
+
+```
+POST /orders
+```
+
+### Description
+
+Place a new order.
+
+### Request
+
+- **userId** (string, required): The unique identifier of the user placing the order.
+- **items** (array of objects, required): An array of order items, each containing:
+  - **productId** (string, required): The unique identifier of the product being ordered.
+  - **quantity** (number, required): The quantity of the product being ordered.
+  - **price** (number, required): The price of the product.
+
+Example Request Body:
+
+```json
+{
+  "userId": "user123",
+  "items": [
+    {
+      "productId": "product123",
+      "quantity": 2,
+      "price": 10.99
+    },
+    {
+      "productId": "product456",
+      "quantity": 1,
+      "price": 5.99
+    }
+  ],
+  "totalAmount": 27.97
+}
+```
+
+### Response
+
+- **Status Code**: 201 Created
+- **Body**: The newly created order object.
+
+Example Response Body:
+
+```json
+{
+  "_id": "order123",
+  "userId": "user123",
+  "items": [
+    {
+      "productId": "product123",
+      "quantity": 2,
+      "price": 10.99
+    },
+    {
+      "productId": "product456",
+      "quantity": 1,
+      "price": 5.99
+    }
+  ],
+  "totalAmount": 27.97,
+  "createdAt": "2023-09-02T12:00:00.000Z",
+  "updatedAt": "2023-09-02T12:00:00.000Z"
+}
+```
+
+---
+
+## Get Orders by User ID
+
+### Endpoint
+
+```
+GET /orders/history/:userId
+```
+
+### Description
+
+Get a list of orders for a specific user.
+
+### Request
+
+- **userId** (string, required): The unique identifier of the user.
+
+### Response
+
+- **Status Code**: 200 OK
+- **Body**: An array of order objects.
+
+Example Response Body:
+
+```json
+[
+  {
+    "_id": "order123",
+    "userId": "user123",
+    "items": [
+      {
+        "productId": "product123",
+        "quantity": 2,
+        "price": 10.99
+      },
+      {
+        "productId": "product456",
+        "quantity": 1,
+        "price": 5.99
+      }
+    ],
+    "totalAmount": 27.97,
+    "createdAt": "2023-09-02T12:00:00.000Z",
+    "updatedAt": "2023-09-02T12:00:00.000Z"
+  },
+  {
+    "_id": "order456",
+    "userId": "user123",
+    "items": [
+      {
+        "productId": "product789",
+        "quantity": 3,
+        "price": 7.99
+      }
+    ],
+    "totalAmount": 23.97,
+    "createdAt": "2023-09-02T14:00:00.000Z",
+    "updatedAt": "2023-09-02T14:00:00.000Z"
+  }
+]
+```
+
+---
+
+## Get Order Details by Order ID
+
+### Endpoint
+
+```
+GET /orders/detail/:orderId
+```
+
+### Description
+
+Get detailed information about a specific order by its unique identifier.
+
+### Request
+
+- **orderId** (string, required): The unique identifier of the order.
+
+### Response
+
+- **Status Code**: 200 OK
+- **Body**: The order object.
+
+Example Response Body:
+
+```json
+{
+  "_id": "order123",
+  "userId": "user123",
+  "items": [
+    {
+      "productId": "product123",
+      "quantity": 2,
+      "price": 10.99
+    },
+    {
+      "productId": "product456",
+      "quantity": 1,
+      "price": 5.99
+    }
+  ],
+  "totalAmount": 27.97,
+  "createdAt": "2023-09-02T12:00:00.000Z",
+  "updatedAt": "2023-09-02T12:00:00.000Z"
+}
+```
 
 ---

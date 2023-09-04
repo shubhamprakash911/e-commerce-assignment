@@ -18,7 +18,7 @@ async function addCategory(req, res, next) {
 
 async function getCategories(req, res, next) {
   try {
-    const categories = categoryModel.find({});
+    const categories = await categoryModel.find();
     res
       .status(200)
       .json({ msg: "Successfully get all categories", data: categories });

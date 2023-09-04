@@ -18,7 +18,7 @@ async function addProduct(req, res, next) {
 
 async function getAllProducts(req, res, next) {
   try {
-    const products = productModel.find();
+    const products = await productModel.find();
     res
       .status(200)
       .json({ msg: "Successfully get all products", data: products });
@@ -29,7 +29,7 @@ async function getAllProducts(req, res, next) {
 
 async function getProduct(req, res, next) {
   try {
-    const product = productModel.find({ _id: req.params.id });
+    const product = await productModel.find({ _id: req.params.id });
     res.status(200).json({ msg: "Successfully get a product", data: product });
   } catch (error) {
     next(error);
